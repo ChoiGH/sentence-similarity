@@ -62,7 +62,7 @@ python sensim.py
 ## Examples
 - In this section, you can see the example result of `sentence-similarity`
 
-Command example (basic - english)
+Command example (basic)
 - python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language en --sizeoption all
 - python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language other --sizeoption all #it use multilanguage embedding model
 

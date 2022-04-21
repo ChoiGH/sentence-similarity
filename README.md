@@ -74,7 +74,7 @@ Command example (make plot graph)
 - python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language en --sizeoption part --size 5000 score ture
 
 <p align="center">
-  <img width="600" height="500" src="sen_score_graph2_blue2.png">
+  <img width="1200" height="1000" src="sen_score_graph2_blue2.png">
 </p>
 
 ## References

@@ -48,23 +48,30 @@ python sensim.py
     --model    MODEL_NAME  [use, bert, elmo]
     --method   METHOD_NAME [cosine, manhattan, euclidean, inner,
                             ts-ss, angular, pairwise, pairwise-idf]
+    --input INPUT_FILE
+    --output OUTPUT
     --verbose  LOG_OPTION (bool)
+    --language LANGUAGE [en, others]
+    --sizeoption {all, part}
+    --size SIZE
+    --score SCORE (bool)
 ```
 
 <br/>
 
 ## Examples
 - In this section, you can see the example result of `sentence-similarity`
-- As you know, there is a no **silver-bullet** which can calculate **_perfect similarity_** between sentences
-- You should conduct various experiments with your dataset
-    - _**Caution**_: `TS-SS score` might not fit with **sentence** similarity task, since this method originally devised to calculate the similarity between long documents
-- **Result**:
 
-<p align="center">
-  <img width="600" height="500" src="img/result.png">
-</p>
+Command example (basic - english)
+- python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language en --sizeoption all
+- python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language other --sizeoption all #it use multilanguage embedding model
 
-<br/>
+Command example (select part of corpus)
+- python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language en --sizeoption part --size 5000 
+- >Meaning to measure the similarity score by extracting only 5000 sentences from the corpus.
+
+Command example (make plot graph)
+- python sensim.py --model MODEL_NAME --method C --input {file1} --output {file2} --language en --sizeoption part --size 5000 score ture
 
 ## References
 ### Papers
@@ -83,10 +90,3 @@ python sensim.py
 - [Sentence Transformers](https://github.com/UKPLab/sentence-transformers)
 - [BERTScore](https://github.com/Tiiiger/bert_score)
 - [Vector Similarity](https://github.com/taki0112/Vector_Similarity)
-
-<br/>
-
-### Articles
-- [An Overview of Sentence Embedding Methods](http://mlexplained.com/2017/12/28/an-overview-of-sentence-embedding-methods/)
-- [Comparing Sentence Similarity Methods](http://nlp.town/blog/sentence-similarity/)
-- [The Current Best of Universal Word Embeddings and Sentence Embeddings](https://medium.com/huggingface/universal-word-sentence-embeddings-ce48ddc8fc3a)

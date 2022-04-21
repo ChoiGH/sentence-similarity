@@ -12,6 +12,11 @@ class BERTCalculator:
         self.sentences = sentences
         self.method = config.method
         self.verbose = config.verbose
+        self.output = config.output
+        self.language = config.language
+        self.sizeoption = config.sizeoption
+        self.size = config.size
+        self.score = config.score
 
     def calculate(self):
         methods = {
@@ -40,11 +45,13 @@ class BERTCalculator:
             similarity = bert_pairwise_cos_sim(self.sentences)
             plot_similarity(self.sentences, similarity, self.method)
             return
-
-        model = SentenceTransformer("bert-base-nli-mean-tokens")
+        if self.language == "en" : 
+            model = SentenceTransformer("bert-base-nli-mean-tokens")
+        else:
+            model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2") #Select model name [Multi lingual : paraphrase-multilingual-mpnet-base-v2]
 
         if self.verbose:
-            logging.info(f"Now embedding sentence...")
+            logging.info(f"_BERT_Now embedding sentence...")
 
         embed_sentences = np.asarray(model.encode(self.sentences))
         method = methods[self.method]
@@ -53,4 +60,4 @@ class BERTCalculator:
             logging.info(f"Calculating similarity between sentences...")
 
         similarity = method(embed_sentences, embed_sentences)
-        plot_similarity(self.sentences, similarity, self.method)
+        plot_similarity(self.sentences, similarity, self.method, self.output, self.size, self.sizeoption, self.score)

@@ -21,7 +21,7 @@ def main(config):
     if config.verbose:
         logging.info(f"Loading the corpus...")
 
-    with open("corpus.txt", "r", encoding="utf-8") as corpus:
+    with open(config.input_file, "r", encoding="utf-8") as corpus:
         sentences = [sentence.replace("\n", "") for sentence in corpus.readlines()]
         model = models[config.model](config, sentences)
 
@@ -58,6 +58,12 @@ if __name__ == "__main__":
             "pairwise-idf",
         ],
     )
+    parser.add_argument("--input_file", type=str)
+    parser.add_argument("--output", type=str)
     parser.add_argument("--verbose", type=bool, default=True)
+    parser.add_argument("--language", type=str, default="en")
+    parser.add_argument("--sizeoption", type=str, choices=["all","part"])
+    parser.add_argument("--size", type=int)
+    parser.add_argument("--score",type=bool, default=False)
     args = parser.parse_args()
     main(args)

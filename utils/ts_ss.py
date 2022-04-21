@@ -9,7 +9,7 @@ from utils.basic import euclidean_dist, cosine_sim
 def theta(src, tgt):
     similarity_ = cosine_sim(src, tgt)
     np.fill_diagonal(similarity_, 1)
-    theta_ = np.arccos(similarity_) + math.radians(10)
+    theta_ = np.arccos(np.minimum(1,similarity_)) + math.radians(10)
     return theta_
 
 

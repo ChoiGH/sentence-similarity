@@ -1,6 +1,7 @@
 import math
 
 import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from sklearn.metrics.pairwise import (
@@ -30,8 +31,7 @@ def manhattan_dist(src, tgt):
 def euclidean_dist(src, tgt):
     distance_ = euclidean_distances(src, tgt)
     return distance_
-
-
+                                                                                                                                                    
 def inner_product(src, tgt):
     similarity_ = np.inner(src, tgt)
     return similarity_
@@ -43,27 +43,37 @@ def vector_summation(sentences):
     return summed_sentence_
 
 
-def plot_similarity(sentences, similarity, method):
-    max_sim = np.max(similarity)
-    min_sim = np.min(similarity)
-
-    fig = plt.figure(figsize=(10, 10))
-    ax = fig.add_subplot(111)
-
-    ax.matshow(
-        similarity, vmin=min_sim, vmax=max_sim, interpolation="nearest", cmap="Greens"
-    )
+def plot_similarity(sentences, similarity, method, output, size, sizeoption, score):
+    f_out = open(output, 'w', encoding="utf-8")
+    sentence_index = []
+    all_sentence_index = []
+    sentence_score = []
+    sentence_score2 = []
 
     for (i, j), z in np.ndenumerate(similarity):
-        ax.text(j, i, "{:0.2f}".format(z), ha="center", va="center", fontsize=12)
+        a = "{:0.2f}".format(z)
+        sentence_index.append(float(a))        
+        if (j+1) == len(sentences):
+            all_sentence_index.append(sentence_index)
+            sentence_index = []
+            for x in all_sentence_index:
+                if score == False:
+                    f_out.write(sentences[i] + " ||| " + sentences[x.index(max(l for l in x if l !=1))]+"\n") #sentence similarity score
+                else :
+                    sentence_score.append(x)
 
-    ax.tick_params(labelsize=15)
-    ax.set_xticklabels([""] + sentences)
-    ax.set_yticklabels([""] + sentences)
+            all_sentence_index = []
+            if sizeoption == "all":
+                print(str(i)+" - Sentence complete")
+            elif sizeoption == "part":
+                if  (i+1) == size:
+                    print(str(i)+" - Sentence complete")
+                    break
+                else:
+                    print(str(i)+" - Sentence complete")
+    
+    if score == True:
+        sns.heatmap(sentence_score, cmap='Blues', annot=True)
+        plt.show()
+                
 
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
-    ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
-    ax.set_title(f"Sentence Similarity using {method.upper()}")
-
-    plt.show()
-    plt.close()

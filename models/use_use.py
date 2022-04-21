@@ -2,11 +2,14 @@ import logging
 
 import tensorflow as tf
 import tensorflow_hub as hub
+import tensorflow_text
 
 from utils.basic import *
 from utils.ts_ss import triangle_sector_similarity
 
-module_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
+module_url_en = "https://tfhub.dev/google/universal-sentence-encoder/4"
+module_url_others = "https://tfhub.dev/google/universal-sentence-encoder-multilingual/3"
+
 
 
 class USECalculator:
@@ -14,6 +17,11 @@ class USECalculator:
         self.sentences = sentences
         self.method = config.method
         self.verbose = config.verbose
+        self.output = config.output
+        self.language = config.language
+        self.sizeoption = config.sizeoption
+        self.size = config.size
+        self.score = config.score
 
     def calculate(self):
         methods = {
@@ -29,7 +37,11 @@ class USECalculator:
             logging.error(f"The method you chosen is not supported yet.")
             return False
 
-        model = hub.load(module_url)
+        if self.language == "en" : 
+            model = hub.load(module_url_en)
+        else:
+            model = hub.load(module_url_others)
+        
         if self.verbose:
             logging.info(f"Now embedding sentence...")
 
@@ -40,4 +52,5 @@ class USECalculator:
             logging.info(f"Calculating similarity between sentences...")
 
         similarity = method(embeddings, embeddings)
-        plot_similarity(self.sentences, similarity, self.method)
+        print("comfile_check")
+        plot_similarity(self.sentences, similarity, self.method, self.output, self.size, self.sizeoption, self.score)

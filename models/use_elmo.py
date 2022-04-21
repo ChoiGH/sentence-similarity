@@ -16,6 +16,7 @@ class ELMoCalculator:
         self.sentences = sentences
         self.method = config.method
         self.verbose = config.verbose
+        self.output = config.output
 
     def calculate(self):
         methods = {
@@ -55,4 +56,4 @@ class ELMoCalculator:
             logging.info(f"Calculating similarity between sentences...")
 
         similarity = method(summed_embeddings, summed_embeddings)
-        plot_similarity(self.sentences, similarity, self.method)
+        plot_similarity(self.sentences, similarity, self.method, self.output)
